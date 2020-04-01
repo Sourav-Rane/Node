@@ -1,15 +1,16 @@
-const getNotes = require('./notes.js');
-const chalk = require('chalk');
-const yargs = require('yargs');
+const notes = require('./notes.js')
+const chalk = require('chalk')
+const yargs = require('yargs')
 
 // Customize yargs version
-yargs.version('1.1.0');
+yargs.version('1.1.0')
 
 //Create add command
 yargs.command(
     {
         command: "add",
         describe: "Add a new note",
+        // builder houses all the arguments to run a cmd
         builder:{
             title:{
                 describe:"Note title",
@@ -22,9 +23,8 @@ yargs.command(
                 type : 'string'
             }
         },
-        handler: function(argv){
-            console.log("Title : "+argv.title);
-            console.log("Body : "+argv.body);
+        handler(argv){
+           notes.addNote(argv.title , argv.body)
         }
     }
 )
@@ -34,8 +34,15 @@ yargs.command(
     {
         command: "remove",
         describe: "Remove a new note",
-        handler: function(){
-            console.log("Removing a note");
+        builder: {
+            title:{
+                describe: 'remove a note',
+                demandOption: true,
+                type: 'string'
+            }
+        },
+        handler(argv){
+            notes.removeNote(argv.title)
         }
     }
 )
@@ -45,8 +52,15 @@ yargs.command(
     {
         command: "read",
         describe: "Read a note",
-        handler: function(){
-            console.log("Reading a note");
+        builder : {
+            title:{
+                describe:'read a note',
+                demandOption: true,
+                type:'string'
+            }
+        },
+        handler(argv){
+            notes.readNote(argv.title)
         }
     }
 )
@@ -56,11 +70,11 @@ yargs.command(
     {
         command: "list",
         describe: "List out all notes",
-        handler: function(){
-            console.log("Listing out all notes");
+        handler(){
+            notes.listNotes()
         }
     }
 )
 
 // add , remove , read , list 
-console.log(yargs.argv); 
+yargs.argv 
